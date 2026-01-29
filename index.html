@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EZTeach — School management for K-12. Grades, attendance, parent portal, substitutes, and more. One app for schools, teachers, parents, and subs.">
+  <title>EZTeach — School Management for K-12</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="header">
+    <nav class="nav container">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="EZTeach" class="logo-img">
+        <span class="logo-text">EZTeach</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="login.html">Sign In</a></li>
+      </ul>
+      <span class="nav-ctas">
+        <a href="login.html" class="btn btn-ghost nav-cta">Sign In</a>
+        <a href="index.html#download" class="btn btn-primary nav-cta nav-cta-primary">Get the App</a>
+      </span>
+      <button class="nav-toggle" aria-label="Menu" type="button">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="hero-badge">School management, simplified</p>
+          <h1 class="hero-title">One app for <span class="gradient-text">schools</span>, teachers, parents &amp; subs.</h1>
+          <p class="hero-desc">Grades, attendance, announcements, calendar, parent portal, substitute management, and more. Built for K–12 and trusted by educators.</p>
+          <div class="hero-ctas">
+            <a href="index.html#download" class="btn btn-primary btn-lg">
+              <span class="btn-icon">↓</span> Download on the App Store
+            </a>
+            <a href="login.html" class="btn btn-ghost btn-lg">Sign In</a>
+            <a href="index.html#features" class="btn btn-ghost btn-lg">Explore features</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <div class="mock-app-bar">
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+              </div>
+              <div class="mock-content">
+                <div class="mock-card"></div>
+                <div class="mock-card short"></div>
+                <div class="mock-card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-gradient"></div>
+    </section>
+
+    <section id="features" class="section features">
+      <div class="container">
+        <p class="section-badge">Features</p>
+        <h2 class="section-title">Everything your school needs</h2>
+        <p class="section-desc">EZTeach matches your app: same features, same workflows. Use the iOS app on the go; use this site to learn more and download.</p>
+
+        <div class="features-grid">
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">📊</span></div>
+            <h3>Grades &amp; Assignments</h3>
+            <p>Points-based entry, weighted categories, auto-calculated overall grades. Override support for teachers and schools.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">✓</span></div>
+            <h3>Attendance</h3>
+            <p>Daily tracking, analytics, and trends. Present, tardy, absent, excused — all in one place.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">👨‍👩‍👧</span></div>
+            <h3>Parent Portal</h3>
+            <p>Parents link via student code and see only their child’s grades and attendance. Secure and private.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">🔄</span></div>
+            <h3>Substitute Management</h3>
+            <p>Request subs, approve jobs, assign coverage. Sub plans and availability in the app.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">📅</span></div>
+            <h3>Calendar &amp; Events</h3>
+            <p>School events, sync to Apple/Google Calendar. Filter by audience (all vs teachers only).</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">📢</span></div>
+            <h3>Announcements</h3>
+            <p>School-wide or teacher-only announcements. Professional, card-based design.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">📚</span></div>
+            <h3>Lesson Plans &amp; Homework</h3>
+            <p>Create and share lesson plans. Assign and track homework with due dates.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">🚌</span></div>
+            <h3>Bus Tracking &amp; Lunch Menu</h3>
+            <p>Real-time bus locations for parents. Weekly lunch menus and daily specials.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <div class="feature-icon"><span aria-hidden="true">🎥</span></div>
+            <h3>Video Meetings</h3>
+            <p>Parent–teacher conferences, staff meetings, IEPs. Schedule and join from the app.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section pricing">
+      <div class="container">
+        <p class="section-badge">Pricing</p>
+        <h2 class="section-title">Simple, transparent pricing</h2>
+        <div class="pricing-cards">
+          <div class="pricing-card">
+            <h3>School</h3>
+            <div class="price"><span class="amount">$75</span>/mo</div>
+            <p>or $575/year (save ~36%)</p>
+            <ul>
+              <li>Full access for your school</li>
+              <li>Unlimited teachers, students, classes</li>
+              <li>Parent portal, grades, attendance</li>
+              <li>Calendar, announcements, documents</li>
+            </ul>
+            <a href="#download" class="btn btn-primary">Get the App</a>
+          </div>
+          <div class="pricing-card featured">
+            <span class="badge">Popular</span>
+            <h3>District</h3>
+            <div class="price">Scaled per school</div>
+            <p>One subscription for all schools in your district.</p>
+            <ul>
+              <li>Everything in School, for multiple schools</li>
+              <li>Centralized billing and management</li>
+              <li>No duplicate subscriptions per school</li>
+            </ul>
+            <a href="#download" class="btn btn-primary">Get the App</a>
+          </div>
+        </div>
+        <p class="pricing-note">Limited-time promo codes available for yearly plans—apply at checkout. One use per school/account. Contact <a href="mailto:support@ezteach.org">support@ezteach.org</a> for eligibility.</p>
+      </div>
+    </section>
+
+    <section id="download" class="section download">
+      <div class="container download-inner">
+        <h2 class="section-title">Download EZTeach</h2>
+        <p class="section-desc">Available on iPhone and iPad. Free to download; subscribe in-app for your school or district.</p>
+        <a href="https://apps.apple.com/app/ezteach/idXXXXXXXXX" class="app-store-badge" target="_blank" rel="noopener noreferrer">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" width="180" height="60">
+        </a>
+        <p class="download-note">Replace the link above with your real App Store URL once the app is live.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="container contact-grid">
+        <div>
+          <p class="section-badge">Contact</p>
+          <h2 class="section-title">Get in touch</h2>
+          <p class="section-desc">Support, feedback, or questions about EZTeach.</p>
+          <ul class="contact-links">
+            <li><a href="mailto:support@ezteach.org">support@ezteach.org</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="support.html">Support &amp; Help</a></li>
+          </ul>
+        </div>
+        <div class="contact-form-wrap">
+          <iframe src="https://share.formgrid.com/embed/KJRfUkF4NMnWlHhQ" title="EZTeach contact" class="formgrid-embed" width="100%" height="380"></iframe>
+          <p class="form-fallback">Or email <a href="mailto:support@ezteach.org">support@ezteach.org</a> directly.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <a href="index.html" class="logo logo-footer">
+          <img src="logo.png" alt="EZTeach" class="logo-img">
+          <span class="logo-text">EZTeach</span>
+        </a>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#download">Download</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> EZTeach. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

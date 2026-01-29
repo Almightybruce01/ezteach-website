@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — EZTeach</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .dash-page { min-height: 100vh; display: flex; flex-direction: column; }
+    .dash-header {
+      padding: 20px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .dash-header .logo { flex-shrink: 0; }
+    .dash-user { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .dash-user span { color: var(--text-muted); font-size: 0.9375rem; }
+    .dash-main { flex: 1; padding: 48px 24px; }
+    .dash-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
+    .dash-sub { color: var(--text-muted); margin-bottom: 40px; }
+    .dash-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 900px; }
+    .dash-card {
+      padding: 28px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .dash-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .dash-card h3 { font-size: 1.125rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .dash-card h3 .icon { font-size: 1.25rem; }
+    .dash-card p { color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 20px; line-height: 1.5; }
+    .dash-card .btn { width: 100%; }
+  </style>
+</head>
+<body class="dash-page">
+  <div class="noise"></div>
+  <header class="dash-header">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="EZTeach" class="logo-img">
+        <span class="logo-text">EZTeach</span>
+      </a>
+      <div class="dash-user">
+        <span id="dash-email"></span>
+        <a href="#" class="btn btn-ghost" id="sign-out-btn">Sign out</a>
+      </div>
+    </div>
+  </header>
+  <main class="dash-main">
+    <div class="container">
+      <h1 class="dash-title">Your EZTeach desktop hub</h1>
+      <p class="dash-sub">You’re signed in. Use the apps below on your devices for full access to grades, attendance, and more.</p>
+      <div class="dash-cards">
+        <div class="dash-card">
+          <h3><span class="icon">📱</span> iPhone &amp; iPad</h3>
+          <p>Use EZTeach on your iPhone or iPad. Download from the App Store.</p>
+          <a href="index.html#download" class="btn btn-primary">Download on the App Store</a>
+        </div>
+        <div class="dash-card">
+          <h3><span class="icon">🖥</span> Mac (desktop)</h3>
+          <p>Run EZTeach on your Mac. Same app as iOS — enable Mac in Xcode, then install from the App Store or TestFlight.</p>
+          <a href="index.html#download" class="btn btn-primary">Get the Mac app</a>
+        </div>
+        <div class="dash-card">
+          <h3><span class="icon">🏠</span> Home</h3>
+          <p>Back to the EZTeach site: features, pricing, and support.</p>
+          <a href="index.html" class="btn btn-ghost">Visit homepage</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script>
+    (function () {
+      var config = window.APP_FIREBASE_CONFIG;
+      if (!config || !config.apiKey || config.apiKey === 'YOUR_WEB_API_KEY') {
+        window.location.href = 'login.html';
+        return;
+      }
+      if (typeof firebase === 'undefined') {
+        document.getElementById('dash-email').textContent = 'Firebase SDK failed to load.';
+        return;
+      }
+      firebase.initializeApp(config);
+
+      firebase.auth().onAuthStateChanged(function (u) {
+        if (!u) {
+          window.location.href = 'login.html';
+          return;
+        }
+        document.getElementById('dash-email').textContent = u.email || 'Signed in';
+      });
+
+      document.getElementById('sign-out-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        firebase.auth().signOut();
+      });
+    })();
+  </script>
+</body>
+</html>
