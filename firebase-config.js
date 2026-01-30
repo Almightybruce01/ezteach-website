@@ -1,6 +1,12 @@
 /**
  * Firebase Web Config — same project as your iOS app.
+ *
+ * SUPPORT EMAIL: Change to your real email. Used for contact links, FormGrid,
+ * and support claims. If you use support@ezteach.org, set up forwarding in
+ * your domain registrar (Namecheap, etc.) to forward to your inbox.
  */
+window.EZTEACH_SUPPORT_EMAIL = "ezteach0@gmail.com";
+
 window.APP_FIREBASE_CONFIG = {
   apiKey: "AIzaSyAjAeVSyr1m9VegpDAsgQ7x6-QjHNSVtXs",
   authDomain: "ezteach-cdf5c.firebaseapp.com",

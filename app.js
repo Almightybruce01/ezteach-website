@@ -1,6 +1,13 @@
 (function () {
   'use strict';
 
+  // Support email links (set in firebase-config.js)
+  var supportEmail = window.EZTEACH_SUPPORT_EMAIL || 'support@ezteach.org';
+  document.querySelectorAll('.support-email').forEach(function (a) {
+    a.href = 'mailto:' + supportEmail;
+    a.textContent = supportEmail;
+  });
+
   // Current year in footer
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
