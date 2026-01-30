@@ -37,6 +37,24 @@ Do this **first** if you get **`fatal: not a git repository`** when you run `git
 
 8. After **push** succeeds, the `ezteach-website` folder is a git repo and GitHub has your site files. You can continue with **FormGrid Step 1** (deploy via Netlify).
 
+**If you already have `ezteach-website` on GitHub** (you created the repo before, or pushed from elsewhere):
+
+- You already ran `git init` and `git commit` in the local folder. Next:
+  1. **Terminal** (in `ezteach-website`):
+     ```bash
+     git remote add origin https://github.com/YOUR_USERNAME/ezteach-website.git
+     git branch -M main
+     git push -u origin main
+     ```
+     Use **your** GitHub username. Replace `YOUR_USERNAME` in the URL.
+  2. If you get **“failed to push”** / **“updates were rejected”** (e.g. GitHub has different commits like a README):
+     - **Option A:** Overwrite GitHub with your local (you lose whatever is only on GitHub):
+       ```bash
+       git push -u origin main --force
+       ```
+     - **Option B:** Keep GitHub’s history: `git pull origin main --allow-unrelated-histories`, resolve any conflicts, then `git push -u origin main`.
+  3. After **push** succeeds, continue with **FormGrid Step 1**.
+
 ---
 
 ## FormGrid (contact form)
@@ -142,7 +160,7 @@ FormGrid is **only** for the website contact form. Not for signup, password-rese
 1. **Go to** **https://dashboard.stripe.com** → log in (or sign up).
 2. **Products** → **Add product**.
 3. **School monthly:** name, **$75/month** recurring → **Add price** → copy **Price ID** (e.g. `price_xxx`).
-4. **Add product** again → **School yearly:** **$575/year** recurring → **Add price** → copy **Price ID**.
+4. **Add product** again → **School yearly:** **$750/year** recurring → **Add price** → copy **Price ID**.
 5. **Developers** (left sidebar) → **Webhooks** → **Add endpoint**.
 6. **Endpoint URL:** your `stripeWebhook` Cloud Function URL (e.g. `https://us-central1-ezteach-cdf5c.cloudfunctions.net/stripeWebhook` — use your project).
 7. **Events to send:** `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`, `customer.subscription.deleted` → **Add endpoint**.
@@ -223,7 +241,7 @@ FormGrid is **only** for the website contact form. Not for signup, password-rese
 - **https://ezteach.org** (live site).
 
 1. **`firebase-config.js`** in `ezteach-website`: your Firebase **web** config (from Firebase Console → Project settings → Your apps → Web).
-2. **Pricing** on site: **$75/mo**, **$575/yr**; generic promo note; **no** codes on public pages.
+2. **Pricing** on site: **$75/mo**, **$750/yr**; generic promo note; **no** codes on public pages.
 3. **Contact form:** FormGrid embed (already in `index.html`).
 4. **Deploy:** Push `ezteach-website` to **GitHub** → Netlify builds from that repo. Updates go live when you push.
 
@@ -248,11 +266,11 @@ FormGrid is **only** for the website contact form. Not for signup, password-rese
 
 - [ ] **FormGrid:** Embed in `index.html`; keep & deploy; optional email → **support@ezteach.org**.
 - [ ] **Firebase:** Web config in `firebase-config.js`; **Email/Password** auth enabled.
-- [ ] **Stripe:** **$75/mo** and **$575/yr** products/prices; webhook + config; **functions** deployed.
+- [ ] **Stripe:** **$75/mo** and **$750/yr** products/prices; webhook + config; **functions** deployed.
 - [ ] **Firebase rules:** `firebase deploy --only firestore:rules` and `firebase deploy --only storage`.
 - [ ] **Promo codes:** In **`promoCodes`** in Firestore; kept **private**.
 - [ ] **District flow:** Add schools first, then pay; **onDistrictCreated** deployed.
-- [ ] **Website:** **$75/mo**, **$575/yr**; FormGrid contact; **ezteach.org** live via Netlify.
+- [ ] **Website:** **$75/mo**, **$750/yr**; FormGrid contact; **ezteach.org** live via Netlify.
 - [ ] **App Store Connect:** Support, Marketing, Privacy URLs → **ezteach.org**.
 
 ---
