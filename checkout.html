@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscribe — EZTeach</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .checkout-page { min-height: 100vh; display: flex; flex-direction: column; }
+    .checkout-main { flex: 1; padding: 48px 24px; max-width: 800px; margin: 0 auto; }
+    .checkout-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; text-align: center; }
+    .checkout-sub { color: var(--text-muted); margin-bottom: 32px; text-align: center; font-size: 0.9375rem; }
+    .billing-toggle { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .billing-toggle button { padding: 10px 24px; border-radius: 8px; border: 2px solid var(--border); background: var(--bg-card); font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .billing-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tier-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .tier-card { padding: 24px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .tier-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .tier-card.selected { border-color: var(--accent); background: rgba(0, 122, 255, 0.06); }
+    .tier-card h3 { font-size: 1.125rem; margin-bottom: 4px; }
+    .tier-card .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin: 8px 0; }
+    .tier-card .price small { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+    .tier-card .cap { font-size: 0.8125rem; color: var(--text-muted); }
+    .coupon-row { display: flex; gap: 12px; margin-bottom: 24px; align-items: center; justify-content: center; }
+    .coupon-row input { padding: 10px 16px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9375rem; width: 200px; background: var(--bg-card); }
+    .checkout-btn { display: block; width: 100%; max-width: 400px; margin: 0 auto; padding: 16px; font-size: 1.125rem; font-weight: 700; border: none; border-radius: 12px; background: var(--accent); color: #fff; cursor: pointer; transition: all 0.2s; }
+    .checkout-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .status-msg { text-align: center; margin-top: 16px; font-size: 0.9375rem; }
+    .status-msg.error { color: #e74c3c; }
+    .sign-in-prompt { text-align: center; padding: 48px 24px; }
+    .sign-in-prompt p { margin-bottom: 16px; color: var(--text-muted); }
+    .codes-info { text-align: center; margin-top: 24px; font-size: 0.8125rem; color: var(--text-muted); }
+    .codes-info strong { color: var(--text); }
+  </style>
+</head>
+<body class="checkout-page">
+  <div class="noise"></div>
+  <header style="padding: 20px 0; border-bottom: 1px solid var(--border);">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="EZTeach" class="logo-img">
+        <span class="logo-text">EZTeach</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span id="user-email" style="color: var(--text-muted); font-size: 0.9375rem;"></span>
+        <a href="#" class="btn btn-ghost" id="sign-out-btn" style="display:none;">Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="checkout-main">
+    <!-- Not signed in -->
+    <div id="sign-in-view" class="sign-in-prompt" style="display:none;">
+      <h1 class="checkout-title">Subscribe to EZTeach</h1>
+      <p>Sign in to your account to choose a plan and subscribe.</p>
+      <a href="login.html?redirect=checkout.html" class="btn btn-primary btn-lg">Sign In to Continue</a>
+      <p style="margin-top: 12px;">Don't have an account? <a href="signup.html?redirect=checkout.html">Create one here</a></p>
+    </div>
+
+    <!-- Signed in -->
+    <div id="checkout-view" style="display:none;">
+      <h1 class="checkout-title">Choose Your Plan</h1>
+      <p class="checkout-sub">All plans include every feature. No add-ons. Pick the tier that fits your school size.</p>
+
+      <!-- Billing toggle -->
+      <div class="billing-toggle">
+        <button id="btn-monthly" class="active" onclick="setBilling('monthly')">Monthly</button>
+        <button id="btn-yearly" onclick="setBilling('yearly')">Yearly <span style="font-size:0.75rem; opacity:0.8;">(save with annual codes)</span></button>
+      </div>
+
+      <!-- Tier cards -->
+      <div class="tier-grid" id="tier-grid"></div>
+
+      <!-- Coupon code -->
+      <div class="coupon-row">
+        <input type="text" id="coupon-input" placeholder="Discount code (optional)" autocapitalize="characters">
+      </div>
+
+      <!-- Checkout button -->
+      <button class="checkout-btn" id="checkout-btn" onclick="startCheckout()" disabled>Select a plan to continue</button>
+      <div id="status" class="status-msg"></div>
+
+      <div class="codes-info">
+        <p>Available codes: <strong>EZTEACH25</strong> (25% off forever) · <strong>ANNUAL10</strong>, <strong>ANNUAL15</strong>, <strong>ANNUAL20</strong> (first year) · <strong>LAUNCH50</strong> (50% off first year)</p>
+        <p style="margin-top: 8px;">For districts, <a href="index.html#contact">contact us</a> for custom annual pricing.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-functions-compat.js"></script>
+  <script>
+    const TIERS = [
+      { key: 'S',   name: 'Tier S',     cap: 200,  monthly: 129,  yearly: 1290  },
+      { key: 'M1',  name: 'Tier M1',    cap: 500,  monthly: 229,  yearly: 2290  },
+      { key: 'M2',  name: 'Tier M2',    cap: 1200, monthly: 379,  yearly: 3790  },
+      { key: 'L',   name: 'Tier L',     cap: 2500, monthly: 549,  yearly: 5490  },
+      { key: 'XL',  name: 'Tier XL',    cap: 4500, monthly: 749,  yearly: 7490  },
+      { key: 'ENT', name: 'Enterprise', cap: 7500, monthly: 999,  yearly: 9990  },
+    ];
+
+    let selectedTier = null;
+    let billing = 'monthly';
+    let currentUser = null;
+
+    // Init Firebase
+    const config = window.APP_FIREBASE_CONFIG;
+    if (config && config.apiKey && config.apiKey !== 'YOUR_WEB_API_KEY') {
+      if (!firebase.apps.length) firebase.initializeApp(config);
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          currentUser = user;
+          document.getElementById('sign-in-view').style.display = 'none';
+          document.getElementById('checkout-view').style.display = 'block';
+          document.getElementById('user-email').textContent = user.email || '';
+          document.getElementById('sign-out-btn').style.display = 'inline-block';
+          renderTiers();
+        } else {
+          currentUser = null;
+          document.getElementById('sign-in-view').style.display = 'block';
+          document.getElementById('checkout-view').style.display = 'none';
+          document.getElementById('sign-out-btn').style.display = 'none';
+        }
+      });
+
+      document.getElementById('sign-out-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        firebase.auth().signOut().then(function () { window.location.href = 'login.html'; });
+      });
+    } else {
+      document.getElementById('sign-in-view').style.display = 'block';
+      document.getElementById('sign-in-view').innerHTML = '<p style="color:#e74c3c;">Firebase not configured. Please set up firebase-config.js.</p>';
+    }
+
+    function setBilling(mode) {
+      billing = mode;
+      document.getElementById('btn-monthly').classList.toggle('active', mode === 'monthly');
+      document.getElementById('btn-yearly').classList.toggle('active', mode === 'yearly');
+      renderTiers();
+    }
+
+    function renderTiers() {
+      const grid = document.getElementById('tier-grid');
+      grid.innerHTML = '';
+      TIERS.forEach(function (t) {
+        const price = billing === 'monthly' ? t.monthly : t.yearly;
+        const interval = billing === 'monthly' ? '/mo' : '/yr';
+        const card = document.createElement('div');
+        card.className = 'tier-card' + (selectedTier === t.key ? ' selected' : '');
+        card.innerHTML =
+          '<h3>' + t.name + '</h3>' +
+          '<div class="price">$' + price.toLocaleString() + '<small>' + interval + '</small></div>' +
+          '<div class="cap">Up to ' + t.cap.toLocaleString() + ' students</div>';
+        card.addEventListener('click', function () { selectTier(t.key); });
+        grid.appendChild(card);
+      });
+    }
+
+    function selectTier(key) {
+      selectedTier = key;
+      renderTiers();
+      var tier = TIERS.find(function (t) { return t.key === key; });
+      var price = billing === 'monthly' ? tier.monthly : tier.yearly;
+      var interval = billing === 'monthly' ? '/mo' : '/yr';
+      var btn = document.getElementById('checkout-btn');
+      btn.disabled = false;
+      btn.textContent = 'Subscribe — $' + price.toLocaleString() + interval + ' (' + tier.name + ')';
+    }
+
+    async function startCheckout() {
+      if (!selectedTier || !currentUser) return;
+
+      var btn = document.getElementById('checkout-btn');
+      var status = document.getElementById('status');
+      btn.disabled = true;
+      btn.textContent = 'Redirecting to Stripe...';
+      status.textContent = '';
+      status.className = 'status-msg';
+
+      try {
+        // Get user's schoolId from Firestore via Cloud Function
+        var createCheckout = firebase.functions().httpsCallable('createTieredCheckout');
+        var couponCode = document.getElementById('coupon-input').value.trim().toUpperCase();
+
+        // We need the schoolId — get it from the user doc
+        var userDoc = await firebase.app().firestore
+          ? null  // functions handle this internally
+          : null;
+
+        var result = await createCheckout({
+          schoolId: '__FROM_USER__',  // function reads from user doc
+          tier: selectedTier,
+          billing: billing,
+          successUrl: window.location.origin + '/subscription-success.html',
+          cancelUrl: window.location.origin + '/checkout.html',
+          couponCode: couponCode || undefined,
+        });
+
+        if (result.data && result.data.url) {
+          window.location.href = result.data.url;
+        } else {
+          throw new Error('No checkout URL returned');
+        }
+      } catch (err) {
+        status.textContent = err.message || 'Something went wrong. Please try again.';
+        status.className = 'status-msg error';
+        btn.disabled = false;
+        btn.textContent = 'Try Again';
+      }
+    }
+  </script>
+</body>
+</html>
